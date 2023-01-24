@@ -58,7 +58,7 @@ const (
 // LoadFromEnv loads a given configuration from an environment file that is read from the root of the project. Database
 // driver and database type are specified as parameters.
 // Expects DATABASE_{property} when reading a .env file
-func LoadFromEnv(driver string, databaseType Type, envFile string) Configuration {
+func LoadFromEnv(driver string, databaseType Type, envFile string) *Configuration {
 	err := godotenv.Load(envFile)
 	if err != nil {
 		log.Fatalf("Error loading %s file", envFile)
@@ -99,7 +99,7 @@ func LoadFromEnv(driver string, databaseType Type, envFile string) Configuration
 		ssl = DISABLE
 	}
 
-	return Configuration{
+	return &Configuration{
 		Driver:   driver,
 		Type:     databaseType,
 		Username: username,
@@ -112,7 +112,7 @@ func LoadFromEnv(driver string, databaseType Type, envFile string) Configuration
 }
 
 // ConnectionString generates the appropriate connection URI for a database configuration
-func (c Configuration) ConnectionString() string {
+func (c *Configuration) ConnectionString() string {
 	switch c.Type {
 	case POSTGRESQL:
 		return fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=%s", c.Username, c.Password, c.Host, c.Port, c.Database, c.SSLMode)

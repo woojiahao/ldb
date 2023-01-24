@@ -18,7 +18,7 @@ func TestConfiguration_ConnectionString(t *testing.T) {
 
 func TestLoadFromEnv(t *testing.T) {
 	config := LoadFromEnv("postgres", POSTGRESQL, ".env.example")
-	expected := Configuration{
+	expected := &Configuration{
 		Driver:   "postgres",
 		Type:     POSTGRESQL,
 		Username: "postgres",

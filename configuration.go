@@ -13,8 +13,8 @@ type (
 	Type    string
 
 	Configuration struct {
-		Driver   string
-		Type     string
+		Driver string
+		Type
 		Username string
 		Password string
 		Host     string
@@ -58,7 +58,7 @@ const (
 // LoadFromEnv loads a given configuration from an environment file that is read from the root of the project. Database
 // driver and database type are specified as parameters.
 // Expects DATABASE_{property} when reading a .env file
-func LoadFromEnv(driver, databaseType, envFile string) Configuration {
+func LoadFromEnv(driver string, databaseType Type, envFile string) Configuration {
 	err := godotenv.Load(envFile)
 	if err != nil {
 		log.Fatalf("Error loading %s file", envFile)

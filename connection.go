@@ -30,7 +30,7 @@ func Connect(config *Configuration) *Connection {
 
 // Q performs a query to the database
 func Q[T any](conn *Connection, query string, parameters []any, parse Parse[T]) ([]T, error) {
-	rows, err := conn.Database.QueryContext(context.TODO(), query, parameters)
+	rows, err := conn.Database.QueryContext(context.TODO(), query, parameters...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +66,7 @@ func Tx[T any](conn *Connection, body func(*sql.Tx) (T, error)) (T, error) {
 
 // TxQ performs a query in a transaction
 func TxQ[T any](tx *sql.Tx, query string, parameters []any, parse Parse[T]) ([]T, error) {
-	rows, err := tx.QueryContext(context.TODO(), query, parameters)
+	rows, err := tx.QueryContext(context.TODO(), query, parameters...)
 	if err != nil {
 		return nil, err
 	}
